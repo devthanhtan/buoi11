@@ -1,0 +1,82 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Tổng quan";
+}
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3 col-sm-6">
+        <div class="card stat-card bg-primary">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="small">Tổng người dùng</div>
+                    <h3 class="mb-0">@Model.TongNguoiDung</h3>
+                </div>
+                <i class="bi bi-people stat-icon"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card stat-card bg-success">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="small">Giảng viên</div>
+                    <h3 class="mb-0">@Model.TongGiangVien</h3>
+                </div>
+                <i class="bi bi-person-video3 stat-icon"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card stat-card bg-warning">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="small">Học viên</div>
+                    <h3 class="mb-0">@Model.TongHocVien</h3>
+                </div>
+                <i class="bi bi-person-badge stat-icon"></i>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6">
+        <div class="card stat-card bg-danger">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="small">Khóa học</div>
+                    <h3 class="mb-0">@Model.TongKhoaHoc</h3>
+                </div>
+                <i class="bi bi-journal-bookmark stat-icon"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <strong>Khóa học mới nhất</strong>
+        <a asp-controller="Products" asp-action="Index" class="btn btn-sm btn-outline-primary">Xem tất cả</a>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Tên khóa học</th>
+                    <th>Danh mục</th>
+                    <th>Giảng viên</th>
+                    <th class="text-end">Giá</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var k in Model.KhoaHocMoiNhat)
+                {
+                    <tr>
+                        <td>@k.TenKhoaHoc</td>
+                        <td>@k.DanhMuc?.TenDanhMuc</td>
+                        <td>@k.GiangVien?.HoTen</td>
+                        <td class="text-end">@(k.Gia == 0 ? "Miễn phí" : k.Gia.ToString("N0") + " đ")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

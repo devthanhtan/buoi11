@@ -1,0 +1,68 @@
+@model ProductFormViewModel
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+<input type="hidden" asp-for="MaKhoaHoc" />
+
+<div class="row g-3">
+    <div class="col-12">
+        <label asp-for="TenKhoaHoc" class="form-label"></label> <span class="text-danger">*</span>
+        <input asp-for="TenKhoaHoc" class="form-control" />
+        <span asp-validation-for="TenKhoaHoc" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="MaDanhMuc" class="form-label"></label> <span class="text-danger">*</span>
+        <select asp-for="MaDanhMuc" asp-items="ViewBag.DanhMucs" class="form-select">
+            <option value="">-- Chọn danh mục --</option>
+        </select>
+        <span asp-validation-for="MaDanhMuc" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="MaGiangVien" class="form-label"></label> <span class="text-danger">*</span>
+        <select asp-for="MaGiangVien" asp-items="ViewBag.GiangViens" class="form-select">
+            <option value="">-- Chọn giảng viên --</option>
+        </select>
+        <span asp-validation-for="MaGiangVien" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Gia" class="form-label"></label>
+        <input asp-for="Gia" class="form-control" type="number" min="0" step="1000" />
+        <div class="form-text">Nhập 0 nếu khóa học miễn phí.</div>
+        <span asp-validation-for="Gia" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="TrangThai" class="form-label"></label>
+        <select asp-for="TrangThai" asp-items="ViewBag.TrangThais" class="form-select" id="trangThai"></select>
+        <span asp-validation-for="TrangThai" class="text-danger small"></span>
+    </div>
+    <div class="col-12" id="lyDoGroup">
+        <label asp-for="LyDoTuChoi" class="form-label"></label>
+        <input asp-for="LyDoTuChoi" class="form-control" />
+        <span asp-validation-for="LyDoTuChoi" class="text-danger small"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="AnhDaiDien" class="form-label"></label>
+        <input asp-for="AnhDaiDien" class="form-control" placeholder="https://..." />
+        <span asp-validation-for="AnhDaiDien" class="text-danger small"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="MoTa" class="form-label"></label>
+        <textarea asp-for="MoTa" class="form-control" rows="4"></textarea>
+    </div>
+</div>
+
+<div class="mt-4">
+    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Lưu</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Hủy</a>
+</div>
+
+<script>
+    // Chỉ hiện ô "Lý do từ chối" khi trạng thái là Từ chối
+    (function () {
+        const select = document.getElementById('trangThai');
+        const group = document.getElementById('lyDoGroup');
+        const toggle = () => group.style.display = select.value === 'TuChoi' ? '' : 'none';
+        select.addEventListener('change', toggle);
+        toggle();
+    })();
+</script>
+

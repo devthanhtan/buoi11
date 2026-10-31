@@ -1,0 +1,83 @@
+@model List<KhoaHoc>
+@{
+    ViewData["Title"] = "Quản lý khóa học";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white">
+        <form method="get" class="row g-2 align-items-center">
+            <div class="col-md-5">
+                <input type="text" name="keyword" value="@ViewBag.Keyword" class="form-control" placeholder="Tìm theo tên khóa học..." />
+            </div>
+            <div class="col-md-3">
+                <select name="maDanhMuc" asp-items="ViewBag.DanhMucs" class="form-select">
+                    <option value="">-- Tất cả danh mục --</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex gap-2">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Lọc</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Đặt lại</a>
+                <a asp-action="Create" class="btn btn-success ms-auto"><i class="bi bi-plus-lg"></i> Thêm</a>
+            </div>
+        </form>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Ảnh</th>
+                        <th>Tên khóa học</th>
+                        <th>Danh mục</th>
+                        <th>Giảng viên</th>
+                        <th class="text-end">Giá</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="8" class="text-center text-muted py-4">Không có khóa học nào.</td></tr>
+                    }
+                    @foreach (var k in Model)
+                    {
+                        var (badge, text) = k.TrangThai switch
+                        {
+                            "DaDuyet" => ("bg-success", "Đã duyệt"),
+                            "ChoDuyet" => ("bg-warning text-dark", "Chờ duyệt"),
+                            "TuChoi" => ("bg-danger", "Từ chối"),
+                            _ => ("bg-secondary", "Bản nháp")
+                        };
+                        <tr>
+                            <td>@k.MaKhoaHoc</td>
+                            <td><img src="@(k.AnhDaiDien ?? "https://placehold.co/600x400")" class="table-thumb" alt="" /></td>
+                            <td>@k.TenKhoaHoc</td>
+                            <td>@k.DanhMuc?.TenDanhMuc</td>
+                            <td>@k.GiangVien?.HoTen</td>
+                            <td class="text-end">@(k.Gia == 0 ? "Miễn phí" : k.Gia.ToString("N0") + " đ")</td>
+                            <td><span class="badge @badge">@text</span></td>
+                            <td class="text-nowrap">
+                                <a asp-action="Details" asp-route-id="@k.MaKhoaHoc" class="btn btn-sm btn-outline-primary" title="Xem">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@k.MaKhoaHoc" class="btn btn-sm btn-outline-warning" title="Sửa">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@k.MaKhoaHoc" method="post" class="d-inline"
+                                      data-confirm="Bạn có chắc muốn xóa khóa học &quot;@k.TenKhoaHoc&quot;?" onsubmit="return confirm(this.dataset.confirm);">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer bg-white text-muted small">Tổng: @Model.Count khóa học</div>
+</div>
+

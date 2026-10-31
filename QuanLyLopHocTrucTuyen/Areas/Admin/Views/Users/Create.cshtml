@@ -1,0 +1,18 @@
+@model UserFormViewModel
+@{
+    ViewData["Title"] = "Thêm người dùng";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white"><strong>Thêm người dùng mới</strong></div>
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <partial name="_UserForm" model="Model" />
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

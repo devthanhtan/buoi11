@@ -1,0 +1,65 @@
+@model UserFormViewModel
+@{
+    var isEdit = Model.MaNguoiDung > 0;
+}
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+<input type="hidden" asp-for="MaNguoiDung" />
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="HoTen" class="form-label"></label> <span class="text-danger">*</span>
+        <input asp-for="HoTen" class="form-control" />
+        <span asp-validation-for="HoTen" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Email" class="form-label"></label> <span class="text-danger">*</span>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="MatKhau" class="form-label"></label>
+        @if (!isEdit)
+        {
+            <span class="text-danger">*</span>
+        }
+        <input asp-for="MatKhau" class="form-control" autocomplete="new-password"
+               placeholder="@(isEdit ? "Để trống nếu không đổi mật khẩu" : "")" />
+        <span asp-validation-for="MatKhau" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="SoDienThoai" class="form-label"></label>
+        <input asp-for="SoDienThoai" class="form-control" />
+        <span asp-validation-for="SoDienThoai" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="MaVaiTro" class="form-label"></label> <span class="text-danger">*</span>
+        <select asp-for="MaVaiTro" asp-items="ViewBag.VaiTros" class="form-select"></select>
+        <span asp-validation-for="MaVaiTro" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="AnhDaiDien" class="form-label"></label>
+        <input asp-for="AnhDaiDien" class="form-control" placeholder="https://..." />
+        <span asp-validation-for="AnhDaiDien" class="text-danger small"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="GioiThieu" class="form-label"></label>
+        <textarea asp-for="GioiThieu" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="col-12">
+        <div class="form-check form-switch form-check-inline">
+            <input asp-for="DaKichHoat" class="form-check-input" />
+            <label asp-for="DaKichHoat" class="form-check-label"></label>
+        </div>
+        <div class="form-check form-switch form-check-inline">
+            <input asp-for="TrangThai" class="form-check-input" />
+            <label asp-for="TrangThai" class="form-check-label"></label>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Lưu</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Hủy</a>
+</div>
+

@@ -1,0 +1,18 @@
+@model ProductFormViewModel
+@{
+    ViewData["Title"] = "Thêm khóa học";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white"><strong>Thêm khóa học mới</strong></div>
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <partial name="_ProductForm" model="Model" />
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

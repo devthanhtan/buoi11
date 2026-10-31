@@ -1,0 +1,98 @@
+@model List<NguoiDung>
+@{
+    ViewData["Title"] = "Quản lý người dùng";
+}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white">
+        <form method="get" class="row g-2 align-items-center">
+            <div class="col-md-5">
+                <input type="text" name="keyword" value="@ViewBag.Keyword" class="form-control" placeholder="Tìm theo họ tên hoặc email..." />
+            </div>
+            <div class="col-md-3">
+                <select name="maVaiTro" asp-items="ViewBag.VaiTros" class="form-select">
+                    <option value="">-- Tất cả vai trò --</option>
+                </select>
+            </div>
+            <div class="col-md-4 d-flex gap-2">
+                <button type="submit" class="btn btn-primary"><i class="bi bi-search"></i> Lọc</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Đặt lại</a>
+                <a asp-action="Create" class="btn btn-success ms-auto"><i class="bi bi-plus-lg"></i> Thêm</a>
+            </div>
+        </form>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Người dùng</th>
+                        <th>Email</th>
+                        <th>Số điện thoại</th>
+                        <th>Vai trò</th>
+                        <th>Trạng thái</th>
+                        <th>Ngày tạo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr><td colspan="8" class="text-center text-muted py-4">Không có người dùng nào.</td></tr>
+                    }
+                    @foreach (var u in Model)
+                    {
+                        <tr>
+                            <td>@u.MaNguoiDung</td>
+                            <td>
+                                <img src="@(u.AnhDaiDien ?? "https://placehold.co/150")" class="table-avatar me-2" alt="" />
+                                @u.HoTen
+                            </td>
+                            <td>@u.Email</td>
+                            <td>@u.SoDienThoai</td>
+                            <td>
+                                @{
+                                    var badge = u.MaVaiTro switch { 1 => "bg-danger", 2 => "bg-success", _ => "bg-secondary" };
+                                }
+                                <span class="badge @badge">@u.VaiTro?.TenVaiTro</span>
+                            </td>
+                            <td>
+                                @if (u.TrangThai)
+                                {
+                                    <span class="badge bg-success-subtle text-success">Hoạt động</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger-subtle text-danger">Bị khóa</span>
+                                }
+                            </td>
+                            <td>@u.NgayTao.ToString("dd/MM/yyyy")</td>
+                            <td class="text-nowrap">
+                                <a asp-action="Details" asp-route-id="@u.MaNguoiDung" class="btn btn-sm btn-outline-primary" title="Xem">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@u.MaNguoiDung" class="btn btn-sm btn-outline-warning" title="Sửa">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form asp-action="ToggleStatus" asp-route-id="@u.MaNguoiDung" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary" title="@(u.TrangThai ? "Khóa" : "Mở khóa")">
+                                        <i class="bi @(u.TrangThai ? "bi-lock" : "bi-unlock")"></i>
+                                    </button>
+                                </form>
+                                <form asp-action="Delete" asp-route-id="@u.MaNguoiDung" method="post" class="d-inline"
+                                      data-confirm="Bạn có chắc muốn xóa người dùng &quot;@u.HoTen&quot;?" onsubmit="return confirm(this.dataset.confirm);">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer bg-white text-muted small">Tổng: @Model.Count người dùng</div>
+</div>
+

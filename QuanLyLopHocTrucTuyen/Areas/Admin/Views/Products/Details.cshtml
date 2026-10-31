@@ -1,0 +1,50 @@
+@model KhoaHoc
+@{
+    ViewData["Title"] = "Chi tiết khóa học";
+}
+
+<div class="mb-3 d-flex gap-2">
+    <a asp-action="Index" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left"></i> Quay lại</a>
+    <a asp-action="Edit" asp-route-id="@Model.MaKhoaHoc" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i> Sửa khóa học</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="row g-0">
+        <div class="col-md-5">
+            <img src="@(Model.AnhDaiDien ?? "https://placehold.co/600x400")" class="img-fluid rounded-start w-100 h-100" style="object-fit:cover" alt="" />
+        </div>
+        <div class="col-md-7">
+            <div class="card-body">
+                <h4 class="card-title">@Model.TenKhoaHoc</h4>
+                <h5 class="text-danger mb-3">@(Model.Gia == 0 ? "Miễn phí" : Model.Gia.ToString("N0") + " đ")</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">Mã khóa học</dt>
+                    <dd class="col-sm-8">@Model.MaKhoaHoc</dd>
+
+                    <dt class="col-sm-4">Danh mục</dt>
+                    <dd class="col-sm-8">@Model.DanhMuc?.TenDanhMuc</dd>
+
+                    <dt class="col-sm-4">Giảng viên</dt>
+                    <dd class="col-sm-8">
+                        <a asp-controller="Users" asp-action="Details" asp-route-id="@Model.MaGiangVien">@Model.GiangVien?.HoTen</a>
+                    </dd>
+
+                    <dt class="col-sm-4">Trạng thái</dt>
+                    <dd class="col-sm-8">@Model.TrangThai</dd>
+
+                    @if (!string.IsNullOrEmpty(Model.LyDoTuChoi))
+                    {
+                        <dt class="col-sm-4">Lý do từ chối</dt>
+                        <dd class="col-sm-8 text-danger">@Model.LyDoTuChoi</dd>
+                    }
+
+                    <dt class="col-sm-4">Ngày tạo</dt>
+                    <dd class="col-sm-8">@Model.NgayTao.ToString("dd/MM/yyyy HH:mm")</dd>
+                </dl>
+                <h6>Mô tả</h6>
+                <p class="text-muted">@Model.MoTa</p>
+            </div>
+        </div>
+    </div>
+</div>
+

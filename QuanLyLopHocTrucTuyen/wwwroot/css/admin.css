@@ -1,0 +1,101 @@
+body {
+    background-color: #f4f6f9;
+    font-size: 0.95rem;
+}
+
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background-color: #1e293b;
+    color: #cbd5e1;
+    padding: 1rem 0.75rem;
+}
+
+.sidebar-brand {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff;
+    padding: 0.5rem 0.75rem 1.25rem;
+}
+
+.admin-sidebar .nav-link {
+    color: #cbd5e1;
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 0.25rem;
+}
+
+.admin-sidebar .nav-link i {
+    margin-right: 0.5rem;
+}
+
+.admin-sidebar .nav-link:hover {
+    background-color: #334155;
+    color: #fff;
+}
+
+.admin-sidebar .nav-link.active {
+    background-color: #3b82f6;
+    color: #fff;
+}
+
+.admin-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.admin-topbar {
+    background-color: #fff;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0.9rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.admin-content {
+    padding: 1.5rem;
+}
+
+.stat-card {
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.stat-card .stat-icon {
+    font-size: 2.5rem;
+    opacity: 0.6;
+}
+
+.table-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.table-thumb {
+    width: 64px;
+    height: 42px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .admin-wrapper {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+    }
+}
+
